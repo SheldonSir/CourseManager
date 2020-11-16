@@ -23,5 +23,6 @@ namespace Course.View
         {
             InitializeComponent();
         }
+
     }
 }

@@ -145,7 +145,7 @@
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style x:Key="UserVerificationCodeStyle" TargetType="{x:Type TextBox}">
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
             <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}"/>
@@ -209,6 +209,79 @@
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
+        
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        
+        <Style x:Key="LoginBtnStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" 
+                                SnapsToDevicePixels="true"
+                                CornerRadius="5">
+                            <Grid>
+                                <Border CornerRadius="5" Background="#22FFFFFF" x:Name="back" Visibility="Hidden"/>
+                                <ContentControl x:Name="contentPresenter" Focusable="False" Content="{TemplateBinding Content}"
+                                              Margin="{TemplateBinding Padding}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              Foreground="{TemplateBinding Foreground}"/>
+                            </Grid>
+                        </Border>
+                        
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                                <Setter Property="Visibility" Value="Visible" TargetName="back"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Window.Resources>
     <Border Margin="5" Background="White" CornerRadius="10">
@@ -219,7 +292,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.8*"/>
                 <RowDefinition Height="3*"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Background="#007DFA" CornerRadius="10, 10, 0, 0">
                 <StackPanel>
@@ -252,16 +325,16 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition MinHeight="22" Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" Style="{DynamicResource UserNameTextBoxStyle}" FontSize="16" Text="asdfasd"/>
-                <PasswordBox Grid.Row="1" Style="{DynamicResource UserPasswordBoxStyle}"/>
-                <TextBox Grid.Row="2" Style="{DynamicResource UserVerificationCodeStyle}"/>
-                <Button Grid.Row="3" Content="Sign In" FontFamily="Courier New"/>
-                <TextBlock Grid.Row="4"/>
+                <TextBox Grid.Row="0" Style="{DynamicResource UserNameTextBoxStyle}" FontSize="16" Height="40"/>
+                <PasswordBox Grid.Row="1" Style="{DynamicResource UserPasswordBoxStyle}" Height="40"/>
+                <TextBox Grid.Row="2" Style="{DynamicResource UserVerificationCodeStyle}" Height="40"/>
+                <Button Grid.Row="3" Content="Sign In" FontFamily="Courier New" Style="{DynamicResource LoginBtnStyle}" Background="#007DFA" Height="40"/>
+                <TextBlock Grid.Row="4" Text="login failure " Foreground="Red" TextWrapping="Wrap" LineHeight="22" FontSize="13"/>
             </Grid>
 
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" Margin="20, 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
                     <RowDefinition/>
@@ -279,11 +352,25 @@
                 </Grid>
 
                 <UniformGrid Grid.Row="1" Columns="5">
-                    <Border Background="Gray"/>
+                    <UniformGrid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#DDD"/>
+                            <Setter Property="FontSize" Value="40"/>
+                            <Setter Property="FontFamily" Value="../Assets/fonts/#iconfont"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="#007DFA"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </UniformGrid.Resources>
+                    <TextBlock Text="&#xe601;"/>
                     <Border />
-                    <Border Background="Gray"/>
+                    <TextBlock Text="&#xe608;"/>
                     <Border />
-                    <Border Background="Gray"/>
+                    <TextBlock Text="&#xe621;"/>
                 </UniformGrid>
             </Grid>
         </Grid>
