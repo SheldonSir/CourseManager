@@ -55,3 +55,84 @@
 > 其中ControlTemplate和ItemsPanelTemplate是控件模板，DataTemplate是数据模板，他们都派生自FrameworkTemplate抽象类。
 
 ControlTemplate:控件模板主要有两个重要属性：VisualTree内容属性和Triggers触发器。所谓VisualTree(视觉树),就是呈现我们所画的控件。Triggers可以对我们的视觉树上的元素进行一些变化。一般用于单内容控件。
+
+**WPF中的数据绑定**
+[LINK](https://www.bilibili.com/video/BV1mJ411F7zG?p=7)
+
+1. 直接通过事件的方式将数据绑定到控件上(传统的绑定方式，只是单向的)
+   ```
+   <Grid>
+        <StackPanel>
+            <Slider x:Name="slider" Width="200" ValueChanged="Slider_ValueChanged"></Slider>
+            <TextBox x:Name="txt" Width="200"></TextBox>
+        </StackPanel>        
+    </Grid>
+   ```
+
+   ```
+   public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            txt.Text = e.NewValue.ToString();
+        }
+    }
+   ```
+2. 通过Binding 的方式绑定
+   ```
+   <Grid>
+        <StackPanel>
+            <Slider x:Name="slider" Width="200" ></Slider>
+            <TextBox x:Name="txt" Width="200" Text="{Binding ElementName=slider, Path=Value}"></TextBox>
+        </StackPanel>
+    </Grid>
+   ```
+> Binding 通过查找的方式，在上下文中查找元素名称为slider的元素， 找到该元素后，将该元素的value绑定到TextBox的Text中， 其后面还可以设置绑定的Mode, 是一次性的， 还是单向的， 还是双向的等等
+> Text="{Binding ElementName=slider, Path=Value, Mode=OneWay}"
+3. 通过绑定到资源的方式
+   ```
+    <Window>
+        <Window.Resources>
+            <TextBox x:Key="tb">Hello Sheldon</TextBox>
+        </Window.Resources>
+        <Grid>
+            <StackPanel>
+                <TextBox x:Name="txt" Width="200" Text="{Binding Source={StaticResource tb}, Path=Text, Mode=OneWay}"></TextBox>
+            </StackPanel>
+        </Grid>
+    </Window>
+
+   ```
+> 通过Binding 的方式先通过key找到静态资源tb, 然后通过Path将tb上的Text解析到txt中的Text中
+
+4. 通过数据上下文的方式进行绑定到属性
+```
+<StackPanel>
+    <TextBox x:Name="txt" Width="200" Text="{Binding Name}"></TextBox>
+</StackPanel>
+
+```
+
+```
+public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            txt.DataContext = new Person() { Name = "Sheldon" };
+        }
+    }
+
+    public class Person
+    {
+        public string Name { get; set; }
+    }
+```
+> 需要注意的是属性名必须与绑定名称一致， 且是public访问权限
+
+未完待续
