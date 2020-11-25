@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Course.View"        
         mc:Ignorable="d"
-        Title="Login System" Height="600" Width="360"
+        Title="Login System" Height="600" Width="360" x:Name="LoginWnd"
         FontFamily="Microsoft YaHei" FontWeight="ExtraLight"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
@@ -56,11 +56,11 @@
                                            FontFamily="../Assets/fonts/#iconfont" 
                                            FontSize="30" 
                                            HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD"/>
-                                <ScrollViewer  x:Name="PART_ContentHost" Grid.Column="1"
+                                <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1"
                                     Focusable="false" 
                                     HorizontalScrollBarVisibility="Hidden" 
                                     VerticalScrollBarVisibility="Hidden"
-                                     VerticalAlignment="Center" MinHeight="20"/>
+                                    VerticalAlignment="Center" MinHeight="20"/>
 
                             </Grid>
                         </Border>
@@ -118,7 +118,11 @@
                                            FontFamily="../Assets/fonts/#iconfont" 
                                            FontSize="30" 
                                            HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD"/>
-                                <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" Focusable="false" 
+                                              HorizontalScrollBarVisibility="Hidden" 
+                                              VerticalScrollBarVisibility="Hidden"
+                                              VerticalAlignment="Center"
+                                              MinHeight="20"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -170,19 +174,23 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40"/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="70"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="80"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="&#xe521;" 
+                                <TextBlock Text="&#xe521;" Grid.Column="0"
                                            FontFamily="../Assets/fonts/#iconfont" 
                                            FontSize="30" 
-                                           HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD"/>
-                                <ScrollViewer  x:Name="PART_ContentHost" Grid.Column="1"
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center" 
+                                           Foreground="#DDD"/>
+                                <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1"
                                     Focusable="false" 
                                     HorizontalScrollBarVisibility="Hidden" 
                                     VerticalScrollBarVisibility="Hidden"
-                                     VerticalAlignment="Center" MinHeight="20"/>
-                                <Image Source=""  Grid.Column="2"/>
+                                    VerticalAlignment="Center" MinHeight="20"/>
+
+                                <Image Source="../Assets/icons/jgyu.jpg" Grid.Column="2" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -296,7 +304,11 @@
             </Grid.RowDefinitions>
             <Border Grid.Row="0" Background="#007DFA" CornerRadius="10, 10, 0, 0">
                 <StackPanel>
-                    <Button VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" Height="30" Template="{StaticResource CloseBtnStyle}"/>
+                    <Button Width="30" Height="30"
+                        VerticalAlignment="Top" 
+                        HorizontalAlignment="Right" 
+                        Template="{StaticResource CloseBtnStyle}"
+                        Command="{Binding CloseWindowCmd}" CommandParameter="{Binding ElementName=LoginWnd}"/>
                     <!--<Border Background="White" Width="100" Height="50" 
                             VerticalAlignment="Center" HorizontalAlignment="Center"
                             Margin="0 50 0 10" CornerRadius="10">
@@ -330,7 +342,7 @@
                 <TextBox Grid.Row="0" Style="{DynamicResource UserNameTextBoxStyle}" FontSize="16" Height="40"/>
                 <PasswordBox Grid.Row="1" Style="{DynamicResource UserPasswordBoxStyle}" Height="40"/>
                 <TextBox Grid.Row="2" Style="{DynamicResource UserVerificationCodeStyle}" Height="40"/>
-                <Button Grid.Row="3" Content="Sign In" FontFamily="Courier New" Style="{DynamicResource LoginBtnStyle}" Background="#007DFA" Height="40"/>
+                <Button Grid.Row="3" Content="Sign In" FontSize="16" FontWeight="Black" FontFamily="Courier New" Foreground="White" Style="{DynamicResource LoginBtnStyle}" Background="#007DFA" Height="40"/>
                 <TextBlock Grid.Row="4" Text="login failure " Foreground="Red" TextWrapping="Wrap" LineHeight="22" FontSize="13"/>
             </Grid>
 

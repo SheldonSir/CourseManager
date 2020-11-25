@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Course.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace Course.View
         public LoginView()
         {
             InitializeComponent();
+
+            this.DataContext = new LoginViewModel();
         }
 
     }
