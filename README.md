@@ -237,3 +237,23 @@ ControlTemplate:控件模板主要有两个重要属性：VisualTree内容属性
 > [RelayCommand](https://www.cnblogs.com/HelloMyWorld/p/4750062.html) 实现了 ICommand 接口
 > 
 > ViewModelBase 实现了 INotifyPropertyChanged 接口
+
+**通过 Keybinding 的方式实现键绑定, 可以直接在TextBox中回车**
+
+```xaml
+<TextBox Grid.Row="0" Style="{DynamicResource UserNameTextBoxStyle}" x:Name="username"
+            FontSize="16" Height="40" Text="{Binding LoginModel.UserName, UpdateSourceTrigger=PropertyChanged}">
+    <TextBox.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding LoginCommand}"/>
+    </TextBox.InputBindings>
+</TextBox>
+```
+
+**默认焦点设置**
+```xaml
+<Grid FocusManager.FocusedElement="{Binding ElementName=username}">            
+    <TextBox x:Name="username"/>
+</Grid>
+
+```
+在父级设置 FocusManager.FocusedElement

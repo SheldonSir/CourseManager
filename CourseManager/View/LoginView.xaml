@@ -331,7 +331,7 @@
                 </StackPanel>
             </Border>
 
-            <Grid Grid.Row="1" Margin="20,20">
+            <Grid Grid.Row="1" Margin="20,20" FocusManager.FocusedElement="{Binding ElementName=username}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -340,15 +340,34 @@
                     <RowDefinition/>
                     <RowDefinition MinHeight="22" Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" Style="{DynamicResource UserNameTextBoxStyle}" FontSize="16" Height="40" Text="{Binding LoginModel.UserName}"/>
-                <PasswordBox Grid.Row="1" Style="{DynamicResource UserPasswordBoxStyle}" Height="40"
-                             common:PasswordHelper.Attach="True"
-                             common:PasswordHelper.Password="{Binding LoginModel.Password, Mode=TwoWay}"/>
-                <TextBox Grid.Row="2" Style="{DynamicResource UserVerificationCodeStyle}" Height="40" Text="{Binding LoginModel.ValidateCode}"/>
+                
+                <TextBox Grid.Row="0" Style="{DynamicResource UserNameTextBoxStyle}" x:Name="username"
+                         FontSize="16" Height="40" Text="{Binding LoginModel.UserName, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding LoginCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+                
+                <PasswordBox Grid.Row="1" Style="{DynamicResource UserPasswordBoxStyle}" 
+                             Height="40" common:PasswordHelper.Attach="True"
+                             common:PasswordHelper.Password="{Binding LoginModel.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <PasswordBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding LoginCommand}"/>
+                    </PasswordBox.InputBindings>
+                </PasswordBox>
+
+                <TextBox Grid.Row="2" Style="{DynamicResource UserVerificationCodeStyle}" 
+                         Height="40" Text="{Binding LoginModel.ValidateCode, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding LoginCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+                
                 <Button Grid.Row="3" Content="Sign In" FontSize="16" 
                         FontWeight="Black" FontFamily="Courier New" Foreground="White"
                         Style="{DynamicResource LoginBtnStyle}" Background="#007DFA" 
                         Height="40" Command="{Binding LoginCommand}"/>
+                
                 <TextBlock Grid.Row="4" Text="{Binding LoginErrorMsg.Msg}" Foreground="Red" 
                            TextWrapping="Wrap" LineHeight="22" FontSize="13" TextAlignment="Center"/>
             </Grid>
