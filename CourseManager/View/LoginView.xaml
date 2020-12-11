@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Course.View"        
+        xmlns:local="clr-namespace:Course.View"
+        xmlns:common="clr-namespace:Course.Common"
         mc:Ignorable="d"
         Title="Login System" Height="600" Width="360" x:Name="LoginWnd"
         FontFamily="Microsoft YaHei" FontWeight="ExtraLight"
@@ -54,7 +55,7 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="&#xe604;" 
                                            FontFamily="../Assets/fonts/#iconfont" 
-                                           FontSize="30" 
+                                           FontSize="24" 
                                            HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD"/>
                                 <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1"
                                     Focusable="false" 
@@ -116,7 +117,7 @@
                                 <TextBlock Grid.Column="0"
                                            Text="&#xe675;" 
                                            FontFamily="../Assets/fonts/#iconfont" 
-                                           FontSize="30" 
+                                           FontSize="24" 
                                            HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#DDD"/>
                                 <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" Focusable="false" 
                                               HorizontalScrollBarVisibility="Hidden" 
@@ -179,7 +180,7 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="&#xe521;" Grid.Column="0"
                                            FontFamily="../Assets/fonts/#iconfont" 
-                                           FontSize="30" 
+                                           FontSize="24" 
                                            HorizontalAlignment="Center" 
                                            VerticalAlignment="Center" 
                                            Foreground="#DDD"/>
@@ -302,7 +303,7 @@
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" Background="#007DFA" CornerRadius="10, 10, 0, 0">
+            <Border Grid.Row="0" Background="#007DFA" CornerRadius="10, 10, 0, 0" MouseLeftButtonDown="MouseLeftMoveWindow">
                 <StackPanel>
                     <Button Width="30" Height="30"
                         VerticalAlignment="Top" 
@@ -339,11 +340,17 @@
                     <RowDefinition/>
                     <RowDefinition MinHeight="22" Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" Style="{DynamicResource UserNameTextBoxStyle}" FontSize="16" Height="40"/>
-                <PasswordBox Grid.Row="1" Style="{DynamicResource UserPasswordBoxStyle}" Height="40"/>
-                <TextBox Grid.Row="2" Style="{DynamicResource UserVerificationCodeStyle}" Height="40"/>
-                <Button Grid.Row="3" Content="Sign In" FontSize="16" FontWeight="Black" FontFamily="Courier New" Foreground="White" Style="{DynamicResource LoginBtnStyle}" Background="#007DFA" Height="40"/>
-                <TextBlock Grid.Row="4" Text="login failure " Foreground="Red" TextWrapping="Wrap" LineHeight="22" FontSize="13"/>
+                <TextBox Grid.Row="0" Style="{DynamicResource UserNameTextBoxStyle}" FontSize="16" Height="40" Text="{Binding LoginModel.UserName}"/>
+                <PasswordBox Grid.Row="1" Style="{DynamicResource UserPasswordBoxStyle}" Height="40"
+                             common:PasswordHelper.Attach="True"
+                             common:PasswordHelper.Password="{Binding LoginModel.Password, Mode=TwoWay}"/>
+                <TextBox Grid.Row="2" Style="{DynamicResource UserVerificationCodeStyle}" Height="40" Text="{Binding LoginModel.ValidateCode}"/>
+                <Button Grid.Row="3" Content="Sign In" FontSize="16" 
+                        FontWeight="Black" FontFamily="Courier New" Foreground="White"
+                        Style="{DynamicResource LoginBtnStyle}" Background="#007DFA" 
+                        Height="40" Command="{Binding LoginCommand}"/>
+                <TextBlock Grid.Row="4" Text="{Binding LoginErrorMsg.Msg}" Foreground="Red" 
+                           TextWrapping="Wrap" LineHeight="22" FontSize="13" TextAlignment="Center"/>
             </Grid>
 
             <Grid Grid.Row="2" Margin="20, 0">

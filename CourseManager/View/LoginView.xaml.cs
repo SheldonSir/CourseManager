@@ -27,5 +27,10 @@ namespace Course.View
             this.DataContext = new LoginViewModel();
         }
 
+        private void MouseLeftMoveWindow(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                this.DragMove();
+        }
     }
 }

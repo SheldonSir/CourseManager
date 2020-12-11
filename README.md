@@ -231,3 +231,9 @@ ControlTemplate:控件模板主要有两个重要属性：VisualTree内容属性
         }
     ```
 
+
+**Mvvlight中的 RelayCommand 和 ViewModelBase 的使用**
+
+> [RelayCommand](https://www.cnblogs.com/HelloMyWorld/p/4750062.html) 实现了 ICommand 接口
+> 
+> ViewModelBase 实现了 INotifyPropertyChanged 接口
