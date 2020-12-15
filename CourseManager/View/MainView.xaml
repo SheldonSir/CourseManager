@@ -5,8 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Course"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="800" Width="1250"
+        FontFamily="Microsoft YaHei" FontWeight="ExtraLight" FontSize="12"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
+
+    <Window.Resources>
+        <ResourceDictionary Source="../Assets/styles/DefaultStyle.xaml"/>
+    </Window.Resources>
+
+    <Border Margin="5" Background="White" CornerRadius="5">
+        <Border.Effect>
+            <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
+        </Border.Effect>
+        <Grid>
+            <Border Height="200" VerticalAlignment="Top" Background="#007DFA" CornerRadius="5, 5, 0, 0" />
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 5 5 0">
+                <Button Style="{StaticResource WndCtrlBtnStyle}" Content="&#xe7d3;" />
+                <Button Style="{StaticResource WndCtrlBtnStyle}" Content="&#xe520;" />
+                <Button Style="{StaticResource WndCtrlBtnStyle}" Content="&#xe509;" />
+            </StackPanel>
+
+            <Grid Margin="50, 20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="65"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Image Source="../Assets/icons/asus.jpg" Width="40"/>
+                    <StackPanel Margin="15 0 0 0">
+                        <TextBlock Text="Hello Sheldon" Foreground="White" FontSize="20"/>
+                        <TextBlock Text="Hello WPF" Foreground="Gray" FontSize="10"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    
+                </StackPanel>
+            </Grid>
+
+        </Grid>
         
-    </Grid>
+    </Border>
 </Window>

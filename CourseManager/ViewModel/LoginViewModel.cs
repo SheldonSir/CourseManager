@@ -39,8 +39,8 @@ namespace Course.ViewModel
 
             /// Bind Login User Info: name, password, validate
             LoginModel = new LoginModel();
-            LoginModel.UserName = "Shledon";
-            LoginModel.Password = "sadfasdf";
+            //LoginModel.UserName = "Shledon";
+            //LoginModel.Password = "sadfasdf";
             LoginModel.ValidateCode = "JgYU";
 
             LoginCommand = new RelayCommand<object>(LoginMainWindow);
@@ -73,6 +73,11 @@ namespace Course.ViewModel
                 return;
             }
 
+            //  在 ViewModel 中动到了 UI 线程, 进行一个异步处理
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                (o as Window).DialogResult = true;
+            }));
         }
     }
 }

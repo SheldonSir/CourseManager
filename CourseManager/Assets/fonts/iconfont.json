@@ -20,6 +20,20 @@
       "unicode_decimal": 58881
     },
     {
+      "icon_id": "2719643",
+      "name": "最大化",
+      "font_class": "zuidahua",
+      "unicode": "e518",
+      "unicode_decimal": 58648
+    },
+    {
+      "icon_id": "2877838",
+      "name": "还原",
+      "font_class": "huanyuan",
+      "unicode": "e520",
+      "unicode_decimal": 58656
+    },
+    {
       "icon_id": "3568357",
       "name": "用户",
       "font_class": "denglu01",
@@ -41,11 +55,25 @@
       "unicode_decimal": 58891
     },
     {
+      "icon_id": "12741889",
+      "name": "最小化",
+      "font_class": "zuixiaohua",
+      "unicode": "e7d3",
+      "unicode_decimal": 59347
+    },
+    {
       "icon_id": "13206733",
       "name": "放大镜",
       "font_class": "fangdajing1-copy",
       "unicode": "e586",
       "unicode_decimal": 58758
+    },
+    {
+      "icon_id": "13418786",
+      "name": "关 闭",
+      "font_class": "guanbi",
+      "unicode": "e509",
+      "unicode_decimal": 58633
     },
     {
       "icon_id": "15907715",
