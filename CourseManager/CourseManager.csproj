@@ -89,7 +89,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\CourseCenterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -103,10 +111,19 @@
     </Compile>
     <Compile Include="Common\CommandBase.cs" />
     <Compile Include="Common\PasswordHelper.cs" />
+    <Compile Include="Converter\GenderConverter.cs" />
     <Compile Include="Model\LoginModel.cs" />
+    <Compile Include="Model\UserModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="View\CourseCenterView.xaml.cs">
+      <DependentUpon>CourseCenterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainPageView.xaml.cs">
+      <DependentUpon>MainPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -161,6 +178,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\icons\asus.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\images\sheldon.jpg" />
+    <Resource Include="Assets\images\useravatar.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

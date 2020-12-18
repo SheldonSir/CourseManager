@@ -39,8 +39,8 @@ namespace Course.ViewModel
 
             /// Bind Login User Info: name, password, validate
             LoginModel = new LoginModel();
-            //LoginModel.UserName = "Shledon";
-            //LoginModel.Password = "sadfasdf";
+            LoginModel.UserName = "Shledon";
+            LoginModel.Password = "sadfasdf";
             LoginModel.ValidateCode = "JgYU";
 
             LoginCommand = new RelayCommand<object>(LoginMainWindow);

@@ -4,29 +4,127 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Course"
+        xmlns:converter="clr-namespace:Course.Converter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1250"
+        Title="MainWindow" Height="800" Width="1250" x:Name="MainWnd"
         FontFamily="Microsoft YaHei" FontWeight="ExtraLight" FontSize="12"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
 
     <Window.Resources>
-        <ResourceDictionary Source="../Assets/styles/DefaultStyle.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Assets/styles/DefaultStyle.xaml"/>
+                <ResourceDictionary>
+                    <converter:GenderConverter x:Key="genderConverter"/>
+
+                    <Style TargetType="RadioButton" x:Key="NavButtonStyle">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontSize" Value="13"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="RadioButton">
+                                    <Border x:Name="radioBtnBorder" Background="Transparent" CornerRadius="5">
+                                        <ContentControl Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20 4"></ContentControl>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter TargetName="radioBtnBorder" Property="Background" Value="#44ffffff"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <ControlTemplate TargetType="{x:Type TextBox}" x:Key="SearchBoxTemplate">
+                        <Border x:Name="border" Background="#2200" 
+                        SnapsToDevicePixels="True"
+                        CornerRadius="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Name="search" Text="&#xe586;" Grid.Column="0" FontFamily="../Assets/fonts/#iconfont" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Foreground="White" />
+                                <TextBlock x:Name="mt" Grid.Column="1" Text=" Search what you like..." Foreground="White" VerticalAlignment="Center" Visibility="Collapsed" />
+                                <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" Focusable="false"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              VerticalScrollBarVisibility="Hidden"
+                                              VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding Text, RelativeSource={ RelativeSource Mode=Self}}" Value="">
+                                <Setter TargetName="mt" Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                    
+                    <Style x:Key="btnUserInfoStyle" TargetType="Button">
+                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Width="40" Height="40" CornerRadius="10">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding UserInfo.Avatar}"/>
+                                            </Border.Background>
+                                        </Border>
+                                        <ContentControl Content="{Binding UserInfo.Name}" VerticalAlignment="Center" Margin="10 0 0 0" Foreground="White" FontSize="14" MinWidth="50"/>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    
+                    <Storyboard x:Key="UserInfoStoryboard">
+                        <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetName="tt" Storyboard.TargetProperty="X"/>
+                    </Storyboard>
+                    <Storyboard x:Key="CloseUserInfoStoryboard">
+                        <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetName="tt" Storyboard.TargetProperty="X"/>
+                    </Storyboard>
+
+                    
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Button.Click" SourceName="btnUserInfo">
+            <BeginStoryboard Storyboard="{StaticResource UserInfoStoryboard}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="Button.Click" SourceName="btnCloseUserInfo">
+            <BeginStoryboard Storyboard="{StaticResource CloseUserInfoStoryboard}"/>
+        </EventTrigger>
+        
+    </Window.Triggers>
 
     <Border Margin="5" Background="White" CornerRadius="5">
         <Border.Effect>
             <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="0"/>
         </Border.Effect>
-        <Grid>
-            <Border Height="200" VerticalAlignment="Top" Background="#007DFA" CornerRadius="5, 5, 0, 0" />
+        <Grid x:Name="gridBody">
+            <Border Height="200" VerticalAlignment="Top" Background="#007DFA" CornerRadius="5, 5, 0, 0" MouseLeftButtonDown="Border_MouseLeftButtonDown" >
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="Border.MouseDown">
+                        <BeginStoryboard Storyboard="{StaticResource CloseUserInfoStoryboard}"/>
+                    </EventTrigger>
+                </Border.Triggers>
+            </Border>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 5 5 0">
-                <Button Style="{StaticResource WndCtrlBtnStyle}" Content="&#xe7d3;" />
-                <Button Style="{StaticResource WndCtrlBtnStyle}" Content="&#xe520;" />
-                <Button Style="{StaticResource WndCtrlBtnStyle}" Content="&#xe509;" />
+                <Button Style="{StaticResource WndCtrlBtnStyle}" Content="&#xe7d3;" Command="{Binding MinimizedMainWindowCmd}" CommandParameter="{Binding ElementName=MainWnd}" />
+                <Button Style="{StaticResource WndCtrlBtnStyle}" Content="&#xe520;" Command="{Binding MaximizedMainWindowCmd}" CommandParameter="{Binding ElementName=MainWnd}" />
+                <Button Style="{StaticResource WndCtrlBtnStyle}" Content="&#xe509;" Command="{Binding CloseMainWindowCmd}" CommandParameter="{Binding ElementName=MainWnd}" />
             </StackPanel>
 
-            <Grid Margin="50, 20">
+            <Grid Margin="50, 30 50 20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="65"/>
                     <RowDefinition Height="35"/>
@@ -36,17 +134,110 @@
                 <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                     <Image Source="../Assets/icons/asus.jpg" Width="40"/>
                     <StackPanel Margin="15 0 0 0">
-                        <TextBlock Text="Hello Sheldon" Foreground="White" FontSize="20"/>
-                        <TextBlock Text="Hello WPF" Foreground="Gray" FontSize="10"/>
+                        <TextBlock Text="Hello Sheldon" Foreground="White" FontSize="20" FontWeight="Bold"/>
+                        <TextBlock Text="Hello WPF" Foreground="Gray" FontSize="10" FontWeight="Bold"/>
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                    
+                <Button Grid.Row="0" x:Name="btnUserInfo" Style="{StaticResource btnUserInfoStyle}" />
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <RadioButton Content="Main Page" Style="{StaticResource NavButtonStyle}" IsChecked="True" Command="{Binding NavChangedCommand}" CommandParameter="MainPageView" />
+                    <RadioButton Content="Course Center" Style="{StaticResource NavButtonStyle}" Command="{Binding NavChangedCommand}" CommandParameter="CourseCenterView"/>
+                    <RadioButton Content="Main Page" Style="{StaticResource NavButtonStyle}"/>
+                    <RadioButton Content="Your Profile" Style="{StaticResource NavButtonStyle}"/>
+                    <RadioButton Content="About Us" Style="{StaticResource NavButtonStyle}"/>
                 </StackPanel>
+
+                <TextBox Grid.Row="1" HorizontalAlignment="Right" Width="300" Height="32" Template="{StaticResource SearchBoxTemplate}" Text="{Binding SearchText}" Foreground="White" />
+
+                <ContentControl Grid.Row="2" Content="{Binding MainContent}">
+                    <ContentControl.Triggers>
+                        <EventTrigger RoutedEvent="ContentControl.MouseDown">
+                            <BeginStoryboard Storyboard="{StaticResource CloseUserInfoStoryboard}"/>
+                        </EventTrigger>
+                    </ContentControl.Triggers>
+                </ContentControl>
             </Grid>
 
+            <!--ce hua chou ti lan-->
+            <Border Background="#EE444444" Width="240" HorizontalAlignment="Right" CornerRadius="5">
+                <Border.Effect>
+                    <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.3" Direction="180"/>
+                </Border.Effect>
+                <Border.RenderTransform>
+                    <TranslateTransform X="250" x:Name="tt"/>
+                </Border.RenderTransform>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="230"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="btnCloseUserInfo" Width="40" Height="40" BorderThickness="0"
+                            Content="&#xe509;" Foreground="White" Background="Transparent" FontSize="16"
+                            FontFamily="../Assets/fonts/#iconfont" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                    <Border Width="80" Height="80" CornerRadius="40" Grid.Row="0">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding UserInfo.Avatar}"/>
+                        </Border.Background>
+                    </Border>
+
+                    <Grid Grid.Row="1" Margin="20 0">
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+
+                            <ControlTemplate TargetType="RadioButton" x:Key="GenderRadioBtnTemplate">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Width="14" Height="14" CornerRadius="7" BorderThickness="1"
+                                            Background="White" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        
+                                        <Border x:Name="point" Width="8" Height="8" CornerRadius="4"
+                                                BorderThickness="1" Background="#007DFA" Visibility="Collapsed"/>
+                                    </Border>
+                                    
+                                    <ContentControl Grid.Column="1" Content="{TemplateBinding Content}" 
+                                                    Foreground="White" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center" Margin="5 0 0 0" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" TargetName="point"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <TextBlock Text="User Name"/>
+                            <TextBlock Text="{Binding UserInfo.Name}" Margin="10 0 0 0"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                            <TextBlock Text="Gender"/>
+                            <RadioButton Content="Male" Margin="10 0 0 0" Template="{StaticResource GenderRadioBtnTemplate}"
+                                         IsChecked="{Binding UserInfo.Gender, Converter={StaticResource genderConverter}, ConverterParameter=1}"/>
+                            <RadioButton Content="Famale" Margin="10 0 0 0" Template="{StaticResource GenderRadioBtnTemplate}"
+                                         IsChecked="{Binding UserInfo.Gender, Converter={StaticResource genderConverter}, ConverterParameter=2}"/>
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+            </Border>
         </Grid>
-        
     </Border>
 </Window>

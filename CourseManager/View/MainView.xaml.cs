@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Course.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,18 @@ namespace Course.View
         public MainView()
         {
             InitializeComponent();
+
+            /// 防止最大化窗口是, 窗体遮盖了任务栏
+            this.MaxHeight = SystemParameters.FullPrimaryScreenHeight;
+            this.DataContext = new MainViewModel();
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if(e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
         }
     }
 }
